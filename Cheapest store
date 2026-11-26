@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My MLBB Top-Up Shop</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 18px; }
+    .box { background: #1e293b; padding: 14px; border-radius: 10px; margin-bottom: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .card { background: #1e293b; padding: 14px; border-radius: 10px; }
+    .price { color: #38bdf8; font-weight: bold; }
+    input, button { padding: 8px 10px; border-radius: 6px; border: 0; margin-top: 6px; }
+    button { background: #2563eb; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1 id="store-title">PulseTopUp MLBB</h1>
+
+  <div class="box">
+    <label>Change Store Name:</label><br />
+    <input id="name-input" placeholder="Enter your store name" />
+    <button onclick="updateStoreName()">Save Name</button>
+  </div>
+
+  <div class="box">
+    <input id="user-id" placeholder="MLBB User ID" />
+    <input id="zone-id" placeholder="Zone ID" />
+  </div>
+
+  <div class="grid" id="pack-list"></div>
+
+  <div class="box">
+    <h3>Order Summary</h3>
+    <p id="order-info">Select a diamond pack to start.</p>
+  </div>
+
+  <script>
+    const packs = [
+      { name: "56 Diamonds", price: "₹95", note: "Fast code or top-up pack for heroes and emotes." },
+      { name: "172 Diamonds", price: "₹245", note: "Mid-size pack for skins and event spins." },
+      { name: "278 Diamonds", price: "₹440", note: "Larger bundle for Starlight or skin draws." }
+    ];
+
+    function updateStoreName() {
+      const val = document.getElementById("name-input").value.trim();
+      if (val) document.getElementById("store-title").textContent = val;
+    }
+
+    function selectPack(pack) {
+      const uid = document.getElementById("user-id").value.trim() || "Missing ID";
+      const zid = document.getElementById("zone-id").value.trim() || "Missing Zone";
+      document.getElementById("order-info").textContent =
+        `${pack.name} (${pack.price}) for ID: ${uid} (${zid})`;
+    }
+
+    const wrap = document.getElementById("pack-list");
+    packs.forEach((p) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<h3>${p.name}</h3><p>${p.note}</p><p class="price">${p.price}</p><button>Select Pack</button>`;
+      card.querySelector("button").onclick = () => selectPack(p);
+      wrap.appendChild(card);
+    });
+  </script>
+</body>
+</html>
